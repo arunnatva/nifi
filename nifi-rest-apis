@@ -1,0 +1,7 @@
+
+#Get Auth Bearer token
+TOKEN=$(curl -k -X POST --negotiate -u:  https://nifi-host.dev:9091/nifi-api/access/kerberos)
+#Get the list of Nifi registry clients
+curl -k -X GET 'https://nifi-host.dev:9091/nifi-api/controller/registry-clients' -H "Authorization: Bearer $TOKEN"
+#add a new registry client in the controller services section on nifi
+curl -k -X POST  -H "Authorization: Bearer $TOKEN" -H "Accept: application/json, text/javascript, */*; q=0.01" -H "Accept-Language: en-US,en;q=0.9" -H "Connection: keep-alive" -H "X-Requested-With: XMLHttpRequest" -H "Content-Type: application/json" 'https://nifi-host.dev:9091/nifi-api/controller/registry-clients' -d '{"revision":{"clientId":"","version":0},"component":{"name":"regcl","uri":"https://<registry-host.dev:61443","description":""}}'
